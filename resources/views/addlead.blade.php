@@ -55,7 +55,7 @@
                 </label>
             </div>
             <div class="form-group">
-                <select id="type" name="type" class="form-control">
+                <select id="type" name="type" class="form-control mx-auto">
                     <option value="">Contact</option>
                     <option value="mobile">Mobile</option>
                     <option value="emailid">Email ID</option>
@@ -63,24 +63,24 @@
             </div>
             <div class="form-group" id="contact-detail-container">
                 <label for="mobile" class="form-label">Mobile Detail with Phone Code
-                    <input type="text" name='detail' class="form-control" >
+                    <input type="text" name='mobile' class="form-control" >
                     @error('mobile') <p class='alert mt-2'>{{ $message }}</p> @enderror
                 </label>
             </div>
             <div class="form-group" id="email-id-container" style="display: none;">
                 <label for="emailid" class="form-label">Email ID
-                    <input type="text" name='detail' class="form-control">
+                    <input type="text" name='email' class="form-control">
                     @error('emailid') <p class='alert mt-2'>{{ $message }}</p> @enderror
                 </label>
             </div>
             <div class="form-group">
-                <label for="category" class="form-label">Category
-                    <select name="category" class="form-control">
-                        <option value="Hot">Hot</option>
-                        <option value="Warm">Warm</option>
-                        <option value="Cold">Cold</option>
-                    </select>
-                    @error('category') <p class="alert mt-2">{{ $message }}</p> @enderror
+                <label for="category_id" class="form-label">Category
+                <select name="category_id" class="form-control">
+                @foreach($categories as $category)
+                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @endforeach
+                </select>
+                @error('category_id') <p class="alert mt-2">{{ $message }}</p> @enderror
                 </label>
             </div>
             <div>

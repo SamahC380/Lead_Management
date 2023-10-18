@@ -9,7 +9,7 @@
     </x-slot>
 
     <div class="font-semibold text-xl text-white leading-tight text-center" >
-            <h2>Executive Details with their Leads</h2>
+            <h2>Executive Details</h2>
         </div>
         <table class="table table-dark table-striped table-hover table-bordered w-100 text-center">
             <thead>
@@ -26,14 +26,6 @@
                 @endphp
                 @foreach($users as $user)
                 @if ($user->usertype !== 'admin') 
-                @php
-                $hasLeads = false; // Initialize a flag to check if the user has products
-                @endphp
-                @foreach($leads as $lead)
-                @if($user->id == $lead->creator_id)
-                @php
-                $hasLeads = true; // Set the flag to true if the user has products
-                @endphp
                 <tr>
                     <td>{{$counter}}</td>
                     @php
@@ -47,8 +39,6 @@
                         <a href="{{route('DeleteUser',$user->id)}}" class='btn btn-danger'>Delete User</a>
                     </td>
                 </tr>
-                @endif
-                @endforeach
                 @endif
                 @endforeach
             </tbody>

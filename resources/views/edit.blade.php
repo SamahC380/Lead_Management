@@ -55,7 +55,7 @@
                 </label>
             </div>
             <div class="form-group">
-                <select id="type" name="type" class="form-control">
+                <select id="type" name="type" class="form-control mx-auto">
                     <option value="">Contact</option>
                     <option value="mobile">Mobile</option>
                     <option value="emailid">Email ID</option>
@@ -63,28 +63,42 @@
             </div>
             <div class="form-group" id="contact-detail-container">
                 <label for="mobile" class="form-label">Mobile Detail with Phone Code
-                    <input type="text" name='detail' class="form-control" value="{{$lead->detail}}">
+                    <input type="text" name='mobile' class="form-control" value="{{$lead->detail}}">
                     @error('mobile') <p class='alert mt-2'>{{ $message }}</p> @enderror
                 </label>
             </div>
             <div class="form-group" id="email-id-container" style="display: none;">
                 <label for="emailid" class="form-label">Email ID
-                    <input type="text" name='detail' class="form-control" value="{{$lead->detail}}">
+                    <input type="text" name='email' class="form-control" value="{{$lead->detail}}">
                     @error('emailid') <p class='alert mt-2'>{{ $message }}</p> @enderror
                 </label>
             </div>
             <div class="form-group">
-                <label for="category" class="form-label">Category
-                    <select name="category" class="form-control">
-                        <option value="Hot">Hot</option>
-                        <option value="Warm">Warm</option>
-                        <option value="Cold">Cold</option>
+                <label for="category_id" class="form-label">Category
+                    <select name="category_id" class="form-control">
+                        <option value="1">Hot</option>
+                        <option value="2">Warm</option>
+                        <option value="3">Cold</option>
                     </select>
                     @error('category') <p class="alert mt-2">{{ $message }}</p> @enderror
                 </label>
             </div>
-            <div>
+            @foreach($users as $user)
+            @if($user->usertype == 'admin')
+            <div class="form-group">
+                <label for="creator_id" class="form-label">Assign Task To
+                <select name="creator_id" class="form-control">
+                @foreach($users as $user)
+                @if($user->usertype != 'admin')
+                <option value="{{ $lead->ceator_id }}">{{ $user->name }}</option>
+                @endif
+                @endforeach
+                </select>
+                @error('assign') <p class="alert mt-2">{{ $message }}</p> @enderror
+                </label>
             </div>
+            @endif
+            @endforeach
             <div class="form-group">
                 <label for="remark" class="form-label">Remark
                     <input type="text" name='remark' class="form-control" value="{{ $lead->remark }}">

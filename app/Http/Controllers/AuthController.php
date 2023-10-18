@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Lead;
+use App\Models\Category;
 use App\Http\Controllers\CrudController;
 
 class AuthController extends Controller
@@ -19,12 +20,14 @@ class AuthController extends Controller
             if(Auth()->user()->usertype=='admin')
             {
                 $leads=Lead::all();
-                return view('admindashboard',compact('users','leads'));
+                $categories=Category::all();
+                return view('admindashboard',compact('users','leads','categories'));
             }
             else
             {   
+                $categories=Category::all();
                 $leads=Lead::where('creator_id',$id)->get();
-                return view('dashboard',compact('users','leads'));
+                return view('dashboard',compact('users','leads','categories'));
             }
         }
     }

@@ -25,66 +25,27 @@
             {{session('message')}}
         </div>
         @endif
-
-        <a href="">
-            <button class='btn btn-success m-3'>Filter</button>
-        </a>
         <a href="{{route('execdetail')}}">
             <button class='btn btn-success m-3'>Executive Details</button>
         </a>
-        
     </div>
     <div class="font-semibold text-xl text-white leading-tight text-center">
             <h2>Leads Listing</h2>
         </div>
-    <table class="table table-dark table-striped table-hover table-bordered w-100 text-center">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Lead Name</th>
-                    <th>Contact Type</th>
-                    <th>Contact Details</th>
-                    <th>Category</th>
-                    <th>Remark</th>
-                    <th>Check</th>
-                    <th>Created By</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                @php
-                $counter = 1;
-                @endphp
+    <div>
+    <select name="filter" id="filter" class='text-white bg-gray-800 text-center rounded-md  hover:border-gray-500 leading-tight focus:outline-none focus:shadow-outline'>
+        <option value='all'>--Executive Name--</option>
+        @foreach($users as $user)
+        @if($user->usertype == 'executive')
+        <option value='{{$user->id}}'>{{$user->name}}</option>
+        @endif
+        @endforeach
+    </select>
 
- <!-- Only display users with usertype=executive -->
-                @foreach($leads as $lead)
-                <tr>
-                    <td>{{$counter}}</td>
-                    @php
-                    @endphp
-                    <td>{{$lead->name}}</td>
-                    <td>{{$lead->type}}</td>
-                    <td>{{$lead->detail}}</td>
-                    <td>{{$lead->category}}</td>
-                    <td>{{$lead->remark}}</td>
-                    <td>{{$lead->check}}</td>
-                    @foreach($users as $user)
-                    @if($lead->check)
-                    @if($user->id == $lead->creator_id)
-                    <td>{{$user->name}}</td>
-                    @endif
-                    @endif
-                    @endforeach
-                    <td>{{$lead->created_at->format('Y-m-d H:i:s')}}</td>
-                    <td>
-                        <!-- Add actions for admins here -->
-                        <a href="{{route('EditLeadPage',$lead->id)}}" class="btn btn-primary">Edit Lead</a>
-                        <a href="{{route('DeleteLead',$lead->id)}}" class='btn btn-danger'>Delete Lead</a>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+    </div>
+    <div class="leads-container">
+        @include('leads',compact('leads'))
+    </div>
         <div>
             </div>
     </div>
@@ -98,4 +59,25 @@
 </script>
 
 </html>
-
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script>
+<script>
+    jQuery('document').ready(function(){
+        jQuery('#filter').change(function(){
+            let filter=jQuery(this).val();
+            jQuery.ajax({
+                url:'/filter',
+                type:'post',
+                data:'filter='+filter+'&_token={{csrf_token()}}',
+                success:function(response)
+                {
+                console.log(response);
+                jQuery('.leads-container').html(response);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error:", error);
+                }
+            })
+        })
+    })
+</script>

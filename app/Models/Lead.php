@@ -13,7 +13,7 @@ class Lead extends Model
         'name',
         'type',
         'detail',
-        'category',
+        'category_id',
         'check',
         'remark',
         'creator_id',

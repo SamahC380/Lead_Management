@@ -32,6 +32,7 @@ Route::post('/addlead',[CrudController::class, 'addleadfn'])->name('addlead');
 
 //Executive Details
 Route::get('/execdetails',[CrudController::class,'execdetailfn'])->name('execdetail');
+
 //Edit 
 Route::get('/edit_user_page/{id}',[CrudController::class,'EditUserPagefn'])->name('EditUserPage');
 Route::get('/edit_lead_page/{id}',[CrudController::class,'EditLeadPagefn'])->name('EditLeadPage');
@@ -41,4 +42,9 @@ Route::post('/Edit_User/{id}',[CrudController::class,'EditUserfn'])->name('EditU
 //Delete
 Route::get('/delete_lead/{id}',[CrudController::class,'DeleteLeadfn'])->name('DeleteLead');
 Route::get('/delete_user/{id}',[CrudController::class,'DeleteUserfn'])->name('DeleteUser');
+
+//Filter Routes
+Route::post('/filter',[CrudController::class,'filterfn']);
+
+
 require __DIR__.'/auth.php';

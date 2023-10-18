@@ -18,6 +18,15 @@ class UsersTableSeeder extends Seeder
             'status' => 'None',
             'usertype' => 'admin',
         ]);
+        DB::table('categories')->insert([
+            'name' => 'Hot',
+        ]);
+        DB::table('categories')->insert([
+            'name' => 'Warm',
+        ]);
+        DB::table('categories')->insert([
+            'name' => 'Cold',
+        ]);
     }
 }
 
