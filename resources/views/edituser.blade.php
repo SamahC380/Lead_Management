@@ -61,7 +61,11 @@
             </div>
             <div class="form-group">
                 <label for="status" class="form-label">Status
-                    <input type="text" name='status' class="form-control" value='{{$user->status}}'>
+                    <select name="status" class="form-control">
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                    @error('category') <p class="alert mt-2">{{ $message }}</p> @enderror
                 </label>
             </div>
             <div class="form-group">

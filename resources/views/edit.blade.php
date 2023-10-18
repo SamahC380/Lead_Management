@@ -56,7 +56,6 @@
             </div>
             <div class="form-group">
                 <select id="type" name="type" class="form-control mx-auto">
-                    <option value="">Contact</option>
                     <option value="mobile">Mobile</option>
                     <option value="emailid">Email ID</option>
                 </select>
@@ -109,4 +108,22 @@
         </form>
     </div>
 </body>
+<script>
+        const typeSelect = document.getElementById('type');
+        const contactDetailContainer = document.getElementById('contact-detail-container');
+        const emailIdContainer = document.getElementById('email-id-container');
+    
+        typeSelect.addEventListener('change', function () {
+            if (typeSelect.value == 'mobile') {
+                contactDetailContainer.style.display = 'block';
+                emailIdContainer.style.display = 'none';
+            } else if (typeSelect.value == 'emailid') {
+                contactDetailContainer.style.display = 'none';
+                emailIdContainer.style.display = 'block';
+            } else {
+                contactDetailContainer.style.display = 'block';
+                emailIdContainer.style.display = 'none';
+            }
+        });
+    </script>
 </html>

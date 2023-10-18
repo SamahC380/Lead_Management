@@ -56,7 +56,6 @@
             </div>
             <div class="form-group">
                 <select id="type" name="type" class="form-control mx-auto">
-                    <option value="">Contact</option>
                     <option value="mobile">Mobile</option>
                     <option value="emailid">Email ID</option>
                 </select>

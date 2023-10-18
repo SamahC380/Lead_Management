@@ -46,7 +46,7 @@ class CrudController extends Controller
         $leads = Lead::where('category_id',$category);
         $currentUser=Auth::user();
         $id=$currentUser->id;
-        $isDuplicate = Lead::where('detail', request('detail'))->first();
+        $isDuplicate = Lead::where('detail', request('detail'))->exists();
         if( request('type') == 'mobile')
         {
         if ($isDuplicate)
@@ -76,7 +76,7 @@ class CrudController extends Controller
             ]);
         }
         }
-        elseif( request('type') == 'emailid')
+        elseif(request('type') == 'emailid')
         {
         if ($isDuplicate)
         {
@@ -84,7 +84,7 @@ class CrudController extends Controller
             $leads = Lead::create([
                 'name' => request('name'),
                 'type' => request('type'),
-                'detail' => request('emailid'),
+                'detail' => request('email'),
                 'remark' => request('remark'),
                 'check' => true,
                 'category_id' => $category_id,
@@ -97,7 +97,7 @@ class CrudController extends Controller
             $leads = Lead::create([
                 'name' => request('name'),
                 'type' => request('type'),
-                'detail' => request('emailid'),
+                'detail' => request('email'),
                 'remark' => request('remark'),
                 'check' => false, // Mark it as not a duplicate
                 'category_id' => $category_id,
@@ -107,7 +107,7 @@ class CrudController extends Controller
         }
         else
         {
-            return 'error';
+            return redirect()->route('home')->with('message','Please Specificy Contact Type Successfully');
         }
         return redirect()->route('home')->with('message','Added Successfully');
     }
@@ -158,25 +158,30 @@ class CrudController extends Controller
     {
 
         $filter = $request->post('datefilter');
+        $categories=Category::all();
+        $users=User::all();
             if($filter == 'newest')
             {
                 // $users=User::all();
-                $categories=Category::all();
-                $users=User::all();  
+               // $categories=Category::all();
+               // $users=User::all();  
                 $leads = Lead::orderBy('created_at', 'asc')->get();
                 return view('leads',compact('leads','users','categories'));
             }
             elseif($filter == 'oldest')
             {
-                $categories=Category::all();
-                $users=User::all();   
+               // $categories=Category::all();
+               // $users=User::all();   
                 $leads = Lead::orderBy('created_at', 'desc')->get();  
                 $html = view('leads',compact('leads','users','categories'))->render();
                 return $html;
             }
             else
             {
-                return ('error');
+              //  return ('error');
+              $leads = Lead::orderBy('name', 'asc')->get();  
+              $html = view('leads',compact('leads','users','categories'))->render();
+              return $html;
             }
             
     }
@@ -206,7 +211,7 @@ class CrudController extends Controller
             ]);
             $lead=Lead::find($id);
             $creator=request('creator_id');
-            $isDuplicate = Lead::where('detail', request('detail'))->first();
+            $isDuplicate = Lead::where('detail', request('detail'))->exists();
             if( request('type') == 'mobile')
             {
                 if ($isDuplicate) 
@@ -245,7 +250,7 @@ class CrudController extends Controller
                 $lead->update([
                     'name' => request('name'),
                     'type' => request('type'),
-                    'detail' => request('emailid'),
+                    'detail' => request('email'),
                     'remark' => request('remark'),
                     'check' => true,
                     'category_id' => request('category_id'),
@@ -258,7 +263,7 @@ class CrudController extends Controller
                 $lead->update([
                     'name' => request('name'),
                     'type' => request('type'),
-                    'detail' => request('emailid'),
+                    'detail' => request('email'),
                     'remark' => request('remark'),
                     'check' => false, // Mark it as not a duplicate
                     'category_id' => request('category_id'),
@@ -280,7 +285,7 @@ class CrudController extends Controller
                 // 'remark'=>'required',
             ]);
             $lead=Lead::find($id);
-            $isDuplicate = Lead::where('detail', request('detail'))->first();
+            $isDuplicate = Lead::where('detail', request('detail'))->exists();
             if( request('type') == 'mobile')
             {
                 if ($isDuplicate) 

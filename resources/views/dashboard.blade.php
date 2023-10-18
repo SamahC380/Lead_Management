@@ -41,7 +41,7 @@
                     <th>Category</th>
                     <th>Remark</th>
                     <th>Check</th>
-                    <th>Created By</th>
+                    <th>Processed By</th>
                     <th>Date</th>
                     <th>Action</th>
                 </tr>

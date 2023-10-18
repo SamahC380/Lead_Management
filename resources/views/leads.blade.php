@@ -9,7 +9,7 @@
                     <th>Category</th>
                     <th>Remark</th>
                     <th>Check</th>
-                    <th>Created By</th>
+                    <th>Processed By</th>
                     <th>Date</th>
                     <th>Action</th>
                 </tr>
@@ -39,7 +39,7 @@
                     <td>{{$user->name}}</td>
                     <td>{{ $lead->created_at->format('Y-m-d H:i:s') }}</td>
                     <td>
-                        <!-- Add actions for executives here -->
+                        <!-- Add actions for executives and admin here -->
                         <a href="{{route('EditLeadPage',$lead->id)}}" class="btn btn-primary">Edit Lead</a>
                         <!-- <a href="{{route('DeleteLead',$lead->id)}}" class='btn btn-danger'>Delete Lead</a> -->
                         <button type="button" class="btn btn-danger bg-red-700" onclick="Delete({{ $lead->id }})">Delete Lead</button>
