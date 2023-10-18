@@ -74,7 +74,7 @@
                 </label>
             </div>
             <div class="form-group">
-                <label for="category_id" class="form-label">Category
+                <label for="category_id" class="form-label">Category 
                     <select name="category_id" class="form-control">
                         <option value="1">Hot</option>
                         <option value="2">Warm</option>
@@ -83,22 +83,20 @@
                     @error('category') <p class="alert mt-2">{{ $message }}</p> @enderror
                 </label>
             </div>
-            @foreach($users as $user)
-            @if($user->usertype == 'admin')
+            @if(auth()->user()->usertype == 'admin')
             <div class="form-group">
-                <label for="creator_id" class="form-label">Assign Task To
-                <select name="creator_id" class="form-control">
-                @foreach($users as $user)
-                @if($user->usertype != 'admin')
-                <option value="{{ $lead->ceator_id }}">{{ $user->name }}</option>
-                @endif
-                @endforeach
-                </select>
+                <label for="creator_id" class="form-label">Assign Task To 
+                    <select name="creator_id" class="form-control">
+                    @foreach($users as $user)
+                    @if($user->usertype != 'admin')
+                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                    @endif
+                    @endforeach
+                    </select>
                 @error('assign') <p class="alert mt-2">{{ $message }}</p> @enderror
                 </label>
             </div>
             @endif
-            @endforeach
             <div class="form-group">
                 <label for="remark" class="form-label">Remark
                     <input type="text" name='remark' class="form-control" value="{{ $lead->remark }}">

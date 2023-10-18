@@ -45,6 +45,8 @@ Route::get('/delete_user/{id}',[CrudController::class,'DeleteUserfn'])->name('De
 
 //Filter Routes
 Route::post('/filter',[CrudController::class,'filterfn']);
+Route::post('/catfilter',[CrudController::class,'catfilterfn']);
+Route::post('/datefilter',[CrudController::class,'datefilterfn']);
 
 
 require __DIR__.'/auth.php';

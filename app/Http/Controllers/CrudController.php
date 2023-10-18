@@ -117,15 +117,67 @@ class CrudController extends Controller
         $filter = $request->post('filter');
             if($filter == 'all')
             {
-                $users=User::all();
+                // $users=User::all();
+                $categories=Category::all();
+                $users=User::all();  
                 $leads=Lead::all(); 
-                return view('leads',compact('leads','users'));
+                return view('leads',compact('leads','users','categories'));
             }
+            else
+            {
                 $categories=Category::all();
                 $users=User::all();   
                 $leads=Lead::where('creator_id',$filter)->get();   
                 $html = view('leads',compact('leads','users','categories'))->render();
                 return $html;
+            }
+            
+    }
+    public function catfilterfn(Request $request)
+    {
+
+        $filter = $request->post('catfilter');
+            if($filter == 'all')
+            {
+                $users=User::all();
+                $leads=Lead::all(); 
+                $categories=Category::all();
+                return view('leads',compact('leads','users','categories'));
+            }
+            else
+            {
+                $users=User::all();   
+                $categories=Category::where('id',$filter)->get(); 
+                $leads=Lead::where('category_id',$filter)->get();  
+                $html = view('leads',compact('leads','users','categories'))->render();
+                return $html;
+            }
+            
+    }
+    public function datefilterfn(Request $request)
+    {
+
+        $filter = $request->post('datefilter');
+            if($filter == 'newest')
+            {
+                // $users=User::all();
+                $categories=Category::all();
+                $users=User::all();  
+                $leads = Lead::orderBy('created_at', 'asc')->get();
+                return view('leads',compact('leads','users','categories'));
+            }
+            elseif($filter == 'oldest')
+            {
+                $categories=Category::all();
+                $users=User::all();   
+                $leads = Lead::orderBy('created_at', 'desc')->get();  
+                $html = view('leads',compact('leads','users','categories'))->render();
+                return $html;
+            }
+            else
+            {
+                return ('error');
+            }
             
     }
     public function EditLeadPagefn($id)
@@ -141,17 +193,19 @@ class CrudController extends Controller
     }
     public function EditLeadfn($id) //Edit Lead for Executives and Admin
     {
-        $users=User::all();
-        if($user->usertype == 'admin')
+
+        $user=User::where('id', request('creator_id'))->get();
+        $creator=request('creator_id');
+        if(Auth()->user()->usertype == 'admin')
         {
             request()->validate([
-                'name'=>'required',
-                'category_id'=>'required',
-                'type'=>'required',
-                'remark'=>'required',
-                'creator_id'=>'required',
+                // 'name'=>'required',
+                // 'category_id'=>'required',
+                // 'type'=>'required',
+                // 'remark'=>'required',
             ]);
             $lead=Lead::find($id);
+            $creator=request('creator_id');
             $isDuplicate = Lead::where('detail', request('detail'))->first();
             if( request('type') == 'mobile')
             {
@@ -165,7 +219,7 @@ class CrudController extends Controller
                     'remark' => request('remark'),
                     'check' => true,
                     'category_id' => request('category_id'),
-                    'creator_id'=> request('creator_id'),
+                    'creator_id'=> $creator,
 
                 ]);
             } 
@@ -179,7 +233,7 @@ class CrudController extends Controller
                     'remark' => request('remark'),
                     'check' => false, // Mark it as not a duplicate
                     'category_id' => request('category_id'),
-                    'creator_id' => request('creator_id'),
+                    'creator_id' => $creator,
                 ]);
             }
             }
@@ -195,7 +249,7 @@ class CrudController extends Controller
                     'remark' => request('remark'),
                     'check' => true,
                     'category_id' => request('category_id'),
-                    'creator_id'=> request('creator_id'),
+                    'creator_id'=> $creator,
                 ]);
             } 
             else 
@@ -208,7 +262,7 @@ class CrudController extends Controller
                     'remark' => request('remark'),
                     'check' => false, // Mark it as not a duplicate
                     'category_id' => request('category_id'),
-                    'creator_id' => $id,
+                    'creator_id' => $creator,
                 ]);
             }
             }
@@ -220,10 +274,10 @@ class CrudController extends Controller
         else
         {
             request()->validate([
-                'name'=>'required',
-                'category_id'=>'required',
-                'type'=>'required',
-                'remark'=>'required',
+                // 'name'=>'required',
+                // 'category_id'=>'required',
+                // 'type'=>'required',
+                // 'remark'=>'required',
             ]);
             $lead=Lead::find($id);
             $isDuplicate = Lead::where('detail', request('detail'))->first();
@@ -287,10 +341,9 @@ class CrudController extends Controller
             {
                 return redirect()->route('home')->with('message','Edited Invalid contact selection');
             }
-        }
-        return redirect()->route('home')->with('message','Edited Successfully');
+        }  
+    return redirect()->route('home')->with('message','Edited Successfully');
     }
-    
     public function EditUserfn($id)
     {
         request()->validate([

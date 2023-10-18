@@ -1,3 +1,4 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 <table class="table table-dark table-striped table-hover table-bordered w-100 text-center">
             <thead>
                 <tr>
@@ -40,7 +41,9 @@
                     <td>
                         <!-- Add actions for executives here -->
                         <a href="{{route('EditLeadPage',$lead->id)}}" class="btn btn-primary">Edit Lead</a>
-                        <a href="{{route('DeleteLead',$lead->id)}}" class='btn btn-danger'>Delete Lead</a>
+                        <!-- <a href="{{route('DeleteLead',$lead->id)}}" class='btn btn-danger'>Delete Lead</a> -->
+                        <button type="button" class="btn btn-danger bg-red-700" onclick="Delete({{ $lead->id }})">Delete Lead</button>
+                        <!-- <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteLeadModal-{{ $lead->id }}">Delete</button> -->
                     </td>
                 </tr>
                 @endif
@@ -48,3 +51,11 @@
                 @endforeach
             </tbody>
         </table>
+<script>
+    function Delete(lead_id) 
+    {
+        if (confirm('Are you sure you want to delete this lead?')) {
+            window.location.href = "{{ route('DeleteLead', ':lead_id') }}".replace(':lead_id', lead_id);
+        }
+    }
+</script>

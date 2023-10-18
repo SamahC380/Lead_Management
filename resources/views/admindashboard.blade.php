@@ -41,13 +41,21 @@
         @endif
         @endforeach
     </select>
-
+    <select name="catfilter" id="catfilter" class='text-white bg-gray-800 text-center rounded-md  hover:border-gray-500 leading-tight focus:outline-none focus:shadow-outline'>
+        <option value='all'>--Category--</option>
+        @foreach($categories as $category)
+        <option value='{{$category->id}}'>{{$category->name}}</option>
+        @endforeach
+    </select>
+    <select name="datefilter" id="datefilter" class="text-white bg-gray-800 text-center rounded-md hover:border-gray-500 leading-tight focus:outline-none focus:shadow-outline">
+        <option value="">--By Date--</option>
+        <option value="newest">Sort By Newest First </option>
+        <option value="oldest">Sort By Oldest First</option>
+    </select>
     </div>
     <div class="leads-container">
         @include('leads',compact('leads'))
     </div>
-        <div>
-            </div>
     </div>
 </x-app-layout>
 
@@ -69,6 +77,46 @@
                 url:'/filter',
                 type:'post',
                 data:'filter='+filter+'&_token={{csrf_token()}}',
+                success:function(response)
+                {
+                console.log(response);
+                jQuery('.leads-container').html(response);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error:", error);
+                }
+            })
+        })
+    })
+</script>
+<script>
+    jQuery('document').ready(function(){
+        jQuery('#datefilter').change(function(){
+            let catfilter=jQuery(this).val();
+            jQuery.ajax({
+                url:'/datefilter',
+                type:'post',
+                data:'datefilter='+catfilter+'&_token={{csrf_token()}}',
+                success:function(response)
+                {
+                console.log(response);
+                jQuery('.leads-container').html(response);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error:", error);
+                }
+            })
+        })
+    })
+</script>
+<script>
+    jQuery('document').ready(function(){
+        jQuery('#catfilter').change(function(){
+            let catfilter=jQuery(this).val();
+            jQuery.ajax({
+                url:'/catfilter',
+                type:'post',
+                data:'catfilter='+catfilter+'&_token={{csrf_token()}}',
                 success:function(response)
                 {
                 console.log(response);
