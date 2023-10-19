@@ -41,7 +41,7 @@
                     <th>Category</th>
                     <th>Remark</th>
                     <th>Duplicate</th>
-                    <th>Created By</th>
+                    <th>Assigned By</th>
                     <th>Date</th>
                     <th>Action</th>
                 </tr>

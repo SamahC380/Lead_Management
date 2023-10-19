@@ -37,7 +37,7 @@ class CrudController extends Controller
         // return $request;
         
         request()->validate([
-            'name'=>'required',
+            'name'=>'required | min:3',
             'category_id'=>'required',
             'type'=>'required',
             'remark'=>'required',
@@ -205,10 +205,10 @@ class CrudController extends Controller
         if(Auth()->user()->usertype == 'admin')
         {
             request()->validate([
-                // 'name'=>'required',
-                // 'category_id'=>'required',
-                // 'type'=>'required',
-                // 'remark'=>'required',
+                'name'=>'required | min:3',
+                'category_id'=>'required',
+                'type'=>'required',
+                'remark'=>'required',
             ]);
             $lead=Lead::find($id);
             $creator=request('creator_id');
@@ -280,10 +280,10 @@ class CrudController extends Controller
         else
         {
             request()->validate([
-                // 'name'=>'required',
-                // 'category_id'=>'required',
-                // 'type'=>'required',
-                // 'remark'=>'required',
+                'name'=>'required | min:3',
+                'category_id'=>'required',
+                'type'=>'required',
+                'remark'=>'required',
             ]);
             $lead=Lead::find($id);
             $isDuplicate = Lead::where('detail', request('detail'))->get();
