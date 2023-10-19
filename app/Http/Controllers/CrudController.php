@@ -12,6 +12,22 @@ use Illuminate\Support\Facades\Auth;
 class CrudController extends Controller
 {
     //
+    public function EditUserfn($id)
+    {
+        request()->validate([
+            'name'=>'required | min:3',
+            'email'=>'required | email | unique:users',
+            'status'=>'required',
+        ]);
+        
+        $user=User::find($id);
+        $user->update([
+            'name'=>request('name'),
+            'email'=>request('email'),
+            'status'=>request('status'),
+        ]);
+        return redirect()->route('home')->with('message','Edited Successfully');
+    }
     public function leaddetailfn()
     {
         $users=User::all();
@@ -40,6 +56,7 @@ class CrudController extends Controller
             'name'=>'required | min:3',
             'category_id'=>'required',
             'type'=>'required',
+            'detail'=>'required',
             'remark'=>'required',
         ]);
         $category_id = $request->input('category_id');
@@ -47,7 +64,7 @@ class CrudController extends Controller
         $leads = Lead::where('category_id',$category);
         $currentUser=Auth::user();
         $id=$currentUser->id;
-        $isDuplicate = Lead::where('detail', $request->input('detail'))->get();
+        $isDuplicate = Lead::where('detail', $request->input('detail'))->exists();
         if( request('type') == 'mobile')
         {
         if ($isDuplicate)
@@ -208,11 +225,12 @@ class CrudController extends Controller
                 'name'=>'required | min:3',
                 'category_id'=>'required',
                 'type'=>'required',
+                'detail'=>'required',
                 'remark'=>'required',
             ]);
             $lead=Lead::find($id);
             $creator=request('creator_id');
-            $isDuplicate=Lead::where('detail', request('detail'))->get();
+            $isDuplicate=Lead::where('detail', request('detail'))->exists();
             if( request('type') == 'mobile')
             {
                 if ($isDuplicate) 
@@ -283,10 +301,11 @@ class CrudController extends Controller
                 'name'=>'required | min:3',
                 'category_id'=>'required',
                 'type'=>'required',
+                'detail'=>'required',
                 'remark'=>'required',
             ]);
             $lead=Lead::find($id);
-            $isDuplicate = Lead::where('detail', request('detail'))->get();
+            $isDuplicate = Lead::where('detail', request('detail'))->exists();
             if( request('type') == 'mobile')
             {
                 if ($isDuplicate) 
@@ -348,23 +367,8 @@ class CrudController extends Controller
                 return redirect()->route('home')->with('message','Edited Invalid contact selection');
             }
         }  
-    return redirect()->route('home')->with('message','Edited Successfully');
-    }
-    public function EditUserfn($id)
-    {
-        request()->validate([
-            'name'=>'required',
-            'email'=>'required',
-            'status'=>'required',
-        ]);
         
-        $user=User::find($id);
-        $user->update([
-            'name'=>request('name'),
-            'email'=>request('email'),
-            'status'=>request('status'),
-        ]);
-        return redirect()->route('home')->with('message','Edited Successfully');
+    return redirect()->route('home')->with('message','Edited Successfully');
     }
     public function DeleteLeadfn($id)
     {

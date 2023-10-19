@@ -84,7 +84,7 @@
             </div>
             @if(auth()->user()->usertype == 'admin')
             <div class="form-group">
-                <label for="creator_id" class="form-label">Assign Task To 
+                <label for="creator_id" class="form-label">Assign Lead To 
                     <select name="creator_id" class="form-control">
                     @foreach($users as $user)
                     @if($user->usertype != 'admin' && $user->status != 'Inactive')
