@@ -36,7 +36,7 @@
                     <td>{{$user->status}}</td>
                     <td>
                         <a href="{{route('EditUserPage',$user->id)}}" class="btn btn-primary">Edit User</a>
-                        <a href="{{route('DeleteUser',$user->id)}}" class='btn btn-danger'>Delete User</a>
+                        <button type="button" class="btn btn-danger bg-red-700" onclick="Delete({{ $user->id }})">Delete User</button>
                     </td>
                 </tr>
                 @endif
@@ -47,3 +47,11 @@
 
 </div>
 </x-app-layout>
+<script>
+    function Delete(user_id) 
+    {
+        if (confirm('Are you sure you want to delete this lead?')) {
+            window.location.href = "{{ route('DeleteUser', ':user_id') }}".replace(':user_id', user_id);
+        }
+    }
+</script>

@@ -87,7 +87,7 @@
                 <label for="creator_id" class="form-label">Assign Task To 
                     <select name="creator_id" class="form-control">
                     @foreach($users as $user)
-                    @if($user->usertype != 'admin')
+                    @if($user->usertype != 'admin' && $user->status != 'Inactive')
                     <option value="{{ $user->id }}">{{ $user->name }}</option>
                     @endif
                     @endforeach

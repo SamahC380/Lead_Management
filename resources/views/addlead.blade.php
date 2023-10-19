@@ -82,6 +82,20 @@
                 @error('category_id') <p class="alert mt-2">{{ $message }}</p> @enderror
                 </label>
             </div>
+            @if(auth()->user()->usertype == 'admin')
+            <div class="form-group">
+                <label for="creator_id" class="form-label">Assign Task To 
+                    <select name="creator_id" class="form-control">
+                    @foreach($users as $user)
+                    @if($user->usertype != 'admin' && $user->status != 'Inactive')
+                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                    @endif
+                    @endforeach
+                    </select>
+                @error('assign') <p class="alert mt-2">{{ $message }}</p> @enderror
+                </label>
+            </div>
+            @endif
             <div>
                 <input type="hidden" name="created_at" value="{{ time() }}" />
             </div>

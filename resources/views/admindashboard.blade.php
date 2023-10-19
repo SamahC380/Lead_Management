@@ -28,6 +28,9 @@
         <a href="{{route('execdetail')}}">
             <button class='btn btn-success m-3'>Executive Details</button>
         </a>
+        <a href="{{route('addleadpage')}}">
+            <button class='btn btn-success m-3'>Add Lead</button>
+        </a>
     </div>
     <div class="font-semibold text-xl text-white leading-tight text-center">
             <h2>Leads Listing</h2>

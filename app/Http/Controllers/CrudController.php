@@ -21,8 +21,9 @@ class CrudController extends Controller
     
     public function addleadpage()
     {
+        $users=User::all();
         $categories=Category::all();
-        return view('addlead',compact('categories'));
+        return view('addlead',compact('categories','users'));
     }
     public function execdetailfn()
     {
@@ -46,7 +47,7 @@ class CrudController extends Controller
         $leads = Lead::where('category_id',$category);
         $currentUser=Auth::user();
         $id=$currentUser->id;
-        $isDuplicate = Lead::where('detail', request('detail'))->exists();
+        $isDuplicate = Lead::where('detail', $request->input('detail'))->get();
         if( request('type') == 'mobile')
         {
         if ($isDuplicate)
@@ -211,7 +212,7 @@ class CrudController extends Controller
             ]);
             $lead=Lead::find($id);
             $creator=request('creator_id');
-            $isDuplicate = Lead::where('detail', request('detail'))->exists();
+            $isDuplicate=Lead::where('detail', request('detail'))->get();
             if( request('type') == 'mobile')
             {
                 if ($isDuplicate) 
@@ -285,7 +286,7 @@ class CrudController extends Controller
                 // 'remark'=>'required',
             ]);
             $lead=Lead::find($id);
-            $isDuplicate = Lead::where('detail', request('detail'))->exists();
+            $isDuplicate = Lead::where('detail', request('detail'))->get();
             if( request('type') == 'mobile')
             {
                 if ($isDuplicate) 
